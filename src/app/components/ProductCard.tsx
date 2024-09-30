@@ -13,9 +13,9 @@ export const ProductCard = ({
   };
   return (
     <div className="">
-      <div className="text-black w-full relative">
+      <div className="text-black relative mb-5 mt-5 border border-blue-800 rounded-lg">
         <Image
-          className=" md:aspect-square sm:aspect-ratio: 3 / 2 rounded-lg z"
+          className="w-full md:aspect-square sm:aspect-[3/2] rounded-lg"
           src={image}
           width={500}
           height={500}
@@ -28,8 +28,6 @@ export const ProductCard = ({
           <Image
             className="h-4 w-4 mr-2"
             src={iconAddToCard}
-            width={500}
-            height={500}
             alt=" Add To Cart Icon"
           />
           Add To Cart
