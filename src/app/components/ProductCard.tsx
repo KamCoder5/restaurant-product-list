@@ -8,12 +8,9 @@ export const ProductCard = ({
   handleAddToCart,
   price,
 }: any) => {
-  const formatPrice = (price: number) => {
-    return price.toFixed(2);
-  };
   return (
     <div className="">
-      <div className="text-black relative mb-5 mt-5 border border-blue-800 rounded-lg">
+      <div className="text-black relative mb-5 mt-5 border rounded-lg">
         <Image
           className="w-full md:aspect-square sm:aspect-[3/2] rounded-lg"
           src={image}
@@ -37,7 +34,7 @@ export const ProductCard = ({
       <div className="flex flex-col justify-center items-start">
         <p className="text-slate-500">{category}</p>
         <p className="font-extrabold">{name}</p>
-        <p className="font-extrabold text-red-700">${formatPrice(price)}</p>
+        <p className="font-extrabold text-red-700">${price.toFixed(2)}</p>
       </div>
     </div>
   );
