@@ -14,7 +14,7 @@ export const ProductCard = ({
   return (
     <div className="text-black w-full items-center ">
       <Image
-        className="aspect-square rounded-lg" // aspect rectangle on larger
+        className=" md:aspect-square sm:aspect-ratio: 3 / 2 rounded-lg"
         src={image}
         width={500}
         height={500}
