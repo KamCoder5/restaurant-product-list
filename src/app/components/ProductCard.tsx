@@ -1,5 +1,4 @@
 import Image from "next/image";
-import imageBaklavaMobile from "../../../public/images/image-baklava-mobile.jpg";
 import iconAddToCard from "../../../public/images/icon-add-to-cart.svg";
 export const ProductCard = ({
   image,
@@ -9,8 +8,8 @@ export const ProductCard = ({
   price,
 }: any) => {
   return (
-    <div className="">
-      <div className="text-black relative mb-5 mt-5 border rounded-lg">
+    <div className=" md:p-5">
+      <div className="text-black relative mb-5 border rounded-lg">
         <Image
           className="w-full md:aspect-square sm:aspect-[3/2] rounded-lg"
           src={image}
@@ -19,7 +18,7 @@ export const ProductCard = ({
           alt="Picture of Food"
         />
         <button
-          className="flex items-center justify-center border border-slate-400 bg-white h-10 w-40 rounded-3xl left-1/3 absolute -bottom-5" // button keeps sliding when resizing browser
+          className="flex items-center justify-center border border-slate-400 bg-white h-10 w-40 rounded-3xl absolute m-auto left-0 right-0  -bottom-5"
           onClick={handleAddToCart}
         >
           <Image
@@ -31,7 +30,7 @@ export const ProductCard = ({
         </button>
       </div>
 
-      <div className="flex flex-col justify-center items-start">
+      <div className="flex flex-col justify-center items-start mt-10 max-sm:mb-10">
         <p className="text-slate-500">{category}</p>
         <p className="font-extrabold">{name}</p>
         <p className="font-extrabold text-red-700">${price.toFixed(2)}</p>

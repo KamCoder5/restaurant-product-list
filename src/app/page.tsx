@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <div className="text-black p-4">
-      <header className="text-black text-4xl font-extrabold mb-6">
+      <header className="text-black text-4xl font-extrabold mb-10">
         Desserts
       </header>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
