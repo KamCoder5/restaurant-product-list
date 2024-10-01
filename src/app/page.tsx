@@ -9,9 +9,10 @@ export default function Home() {
   const [productsInCart, setProductInCart] = useState<{
     [key: string]: number;
   }>({});
-  const [isProductSelected, setIsProductSelected] = useState();
+  const [isAddToCartSelected, setIsAddToCartSelected] = useState<string[]>([]);
 
   const handleProductsInCart = (productName: string, option: string) => {
+    handleAddToCartSelected(productName);
     if (option === "add") {
       setProductInCart((prevCart) => ({
         ...prevCart,
@@ -26,8 +27,9 @@ export default function Home() {
     console.log({ productsInCart });
   };
 
-  const handleSelectedProduct = (productName: string) => {
-    productName ? true : false;
+  const handleAddToCartSelected = (productName: string) => {
+    setIsAddToCartSelected([...isAddToCartSelected, productName]);
+    console.log({ isAddToCartSelected });
   };
   return (
     <div className="text-black p-4">
@@ -46,7 +48,10 @@ export default function Home() {
             handleCartQuantity={(option: string) =>
               handleProductsInCart(product.name, option)
             }
-            isSelectedProduct={() => handleSelectedProduct(product.name)}
+            handleAddToCartSelected={() =>
+              handleAddToCartSelected(product.name)
+            }
+            isSelectedProduct={productsInCart}
           />
         ))}
       </div>
