@@ -4,6 +4,7 @@ import { useState } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
 import { SummaryCardItem } from "./components/SummaryCardItem";
+import { isMobile, isDesktop, isTablet } from "react-device-detect";
 
 export default function Home() {
   const [productsInCart, setProductsInCart] = useState<{
@@ -31,7 +32,19 @@ export default function Home() {
       [productName]: 1,
     }));
   };
-
+  const productImage = (product: any) => {
+    if (isMobile) {
+      return product.image.mobile;
+    }
+    if (isDesktop) {
+      return product.image.desktop;
+    }
+    if (isTablet) {
+      return product.image.tablet;
+    } else {
+      return product.image.desktop;
+    }
+  };
   return (
     <div className="text-black p-4">
       <header className="text-black text-4xl font-extrabold mb-10">
@@ -41,7 +54,7 @@ export default function Home() {
         {data.map((product, index) => (
           <ProductCard
             key={index}
-            image={product.image.mobile}
+            image={productImage(product)}
             category={product.category}
             name={product.name}
             price={product.price}

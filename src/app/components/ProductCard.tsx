@@ -61,17 +61,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       );
     }
   };
-  console.log({ isSelectedProduct });
   return (
     <div className="md:p-5">
-      <div className="text-black relative mb-5  rounded-lg">
+      <div className="text-black relative mb-5  rounded-lg ">
         <Image
-          className={`w-full md:aspect-square sm:aspect-[3/2] rounded-lg  ${
+          className={`w-full md:aspect-square sm:aspect-[3/2] rounded-lg ${
             isSelectedProduct[name] ? "border-2  border-red-700" : "border-2"
           }`}
           src={image}
-          width={500}
-          height={500}
+          width={200}
+          height={200}
           alt="Picture of Food"
         />
         {productCardButton()}
