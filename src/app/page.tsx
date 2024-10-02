@@ -22,7 +22,7 @@ export default function Home() {
     setProductsInCart((prevCart) => {
       const updatedCart = { ...prevCart };
       if (updatedCart[productName]) {
-        updatedCart[productName].quantity + 1;
+        updatedCart[productName].quantity += 1;
       } else {
         updatedCart[productName] = { price, quantity: 1 };
       }
