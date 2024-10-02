@@ -61,12 +61,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       );
     }
   };
-
+  console.log({ isSelectedProduct });
   return (
     <div className="md:p-5">
-      <div className="text-black relative mb-5 border rounded-lg">
+      <div className="text-black relative mb-5  rounded-lg">
         <Image
-          className="w-full md:aspect-square sm:aspect-[3/2] rounded-lg"
+          className={`w-full md:aspect-square sm:aspect-[3/2] rounded-lg  ${
+            isSelectedProduct[name] ? "border-2  border-red-700" : "border-2"
+          }`}
           src={image}
           width={500}
           height={500}
@@ -74,7 +76,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         />
         {productCardButton()}
       </div>
-      <div className="flex flex-col justify-center items-start mt-10 max-sm:mb-10">
+      <div className="flex flex-col justify-center items-start mt-10 max-sm:mb-10 ">
         <p className="text-slate-500">{category}</p>
         <p className="font-extrabold">{name}</p>
         <p className="font-extrabold text-red-700">${price.toFixed(2)}</p>
