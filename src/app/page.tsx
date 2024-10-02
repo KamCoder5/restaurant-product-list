@@ -4,39 +4,66 @@ import { useState } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
 import { SummaryCardItem } from "./components/SummaryCardItem";
-import { isMobile, isDesktop, isTablet } from "react-device-detect";
+import { isMobile, isTablet } from "react-device-detect";
+
+interface CartItem {
+  price: number;
+  quantity: number;
+}
+
+interface Cart {
+  [key: string]: CartItem;
+}
 
 export default function Home() {
-  const [productsInCart, setProductsInCart] = useState<{
-    [key: string]: number;
-  }>({});
+  const [productsInCart, setProductsInCart] = useState<Cart>({});
 
-  const handleCartQuantity = (productName: string, option: string) => {
+  const addToCart = (productName: string, price: number) => {
     setProductsInCart((prevCart) => {
       const updatedCart = { ...prevCart };
-      if (option === "add") {
-        updatedCart[productName] = (updatedCart[productName] || 0) + 1;
-      } else if (option === "remove" && updatedCart[productName]) {
-        updatedCart[productName] -= 1;
-        if (updatedCart[productName] === 0) {
-          delete updatedCart[productName];
-        }
+      if (updatedCart[productName]) {
+        updatedCart[productName].quantity + 1;
+      } else {
+        updatedCart[productName] = { price, quantity: 1 };
       }
+      console.log("Updated cart after adding:", updatedCart);
       return updatedCart;
     });
   };
 
-  const handleAddToCartSelected = (productName: string) => {
-    setProductsInCart((prevCart) => ({
-      ...prevCart,
-      [productName]: 1,
-    }));
+  const removeFromCart = (productName: string) => {
+    setProductsInCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      if (updatedCart[productName]) {
+        updatedCart[productName].quantity -= 1;
+        if (updatedCart[productName].quantity <= 0) {
+          delete updatedCart[productName];
+        }
+      }
+      console.log("Updated cart after removing:", updatedCart);
+      return updatedCart;
+    });
   };
+
+  const getTotalCartCost = () => {
+    return Object.values(productsInCart).reduce(
+      (total, { price, quantity }) => {
+        return total + price * quantity;
+      },
+      0
+    );
+  };
+
   const productImage = (product: any) => {
     if (isMobile) return product.image.mobile;
     if (isTablet) return product.image.tablet;
     return product.image.desktop;
   };
+
+  const totalItemsInCart = Object.values(productsInCart).reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
   return (
     <div className="text-black p-4">
@@ -51,22 +78,28 @@ export default function Home() {
             category={product.category}
             name={product.name}
             price={product.price}
-            productQuantityInCart={productsInCart[product.name] || 0}
-            handleCartQuantity={(option: string) =>
-              handleCartQuantity(product.name, option)
-            }
-            handleAddToCartSelected={() =>
-              handleAddToCartSelected(product.name)
-            }
-            isSelectedProduct={productsInCart}
+            productQuantityInCart={productsInCart[product.name]?.quantity || 0}
+            handleAddToCart={() => addToCart(product.name, product.price)}
+            handleRemoveFromCart={() => removeFromCart(product.name)}
+            isSelectedProduct={!!productsInCart[product.name]}
           />
         ))}
       </div>
-      <div className="h-full w-full bg-white p-4 rounded-lg">
+      <div className="h-full w-full bg-white p-4 rounded-lg mt-8">
         <div className="text-red-700 text-4xl font-extrabold mb-5">
-          Your Cart (00)
+          Your Cart ({totalItemsInCart})
         </div>
-        <SummaryCardItem />
+        {Object.entries(productsInCart).map(([name, { price, quantity }]) => (
+          <SummaryCardItem
+            key={name}
+            name={name}
+            price={price}
+            quantity={quantity}
+          />
+        ))}
+        <div className="text-xl font-bold mt-4">
+          Total: ${getTotalCartCost().toFixed(2)}
+        </div>
       </div>
     </div>
   );

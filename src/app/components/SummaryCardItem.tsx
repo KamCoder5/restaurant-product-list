@@ -1,19 +1,32 @@
-export const SummaryCardItem = () => {
+import React from "react";
+
+interface SummaryCardItemProps {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+export const SummaryCardItem: React.FC<SummaryCardItemProps> = ({
+  name,
+  price,
+  quantity,
+}) => {
+  const totalPriceForIndividualProduct = price * quantity;
+
   return (
-    <div className="h-full w-full bg-white ">
-      <p className="text-slate-700 sm:text-m md:text-lg font-extrabold mb-2">
-        Product Name
-      </p>
-      <div className="flex flex-row ">
-        <p className="text-red-700 sm:text-m md:text-lg font-extrabold mr-2">
-          1x
-        </p>
-        <p className="text-slate-500 sm:text-m md:text-lg mr-2">@ $0.00</p>
-        <p className="text-slate-600 sm:text-m md:text-lg font-extrabold">
-          $0.00
+    <div className="w-full bg-white mb-4">
+      <div className="flex justify-between items-center">
+        <p className="text-slate-700 text-lg font-bold">{name}</p>
+        <p className="text-slate-600 text-lg font-bold">
+          ${totalPriceForIndividualProduct.toFixed(2)}
         </p>
       </div>
-      <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-200" />
+      <div className="flex items-center text-sm text-slate-500">
+        <p className="mr-2">
+          {quantity} x ${price.toFixed(2)}
+        </p>
+      </div>
+      <hr className="h-px my-2 bg-gray-200 border-0" />
     </div>
   );
 };

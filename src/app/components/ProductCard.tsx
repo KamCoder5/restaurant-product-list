@@ -8,10 +8,10 @@ interface ProductCardProps {
   name: string;
   category: string;
   price: number;
-  handleCartQuantity: (option: string) => void;
+  handleAddToCart: () => void;
+  handleRemoveFromCart: () => void;
   productQuantityInCart: number;
-  handleAddToCartSelected: () => void;
-  isSelectedProduct: { [key: string]: number };
+  isSelectedProduct: boolean;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -19,24 +19,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   name,
   category,
   price,
-  handleCartQuantity,
+  handleAddToCart,
+  handleRemoveFromCart,
   productQuantityInCart,
-  handleAddToCartSelected,
   isSelectedProduct,
 }) => {
   const productCardButton = () => {
-    if (isSelectedProduct[name]) {
+    if (isSelectedProduct) {
       return (
         <div className="flex items-center justify-center border-2 border-red-700 bg-red-700 text-white h-10 w-40 rounded-3xl absolute m-auto left-0 right-0 -bottom-5">
-          <button onClick={() => handleCartQuantity("remove")}>
+          <button onClick={handleRemoveFromCart}>
             <Image
+              priority={false}
               className="h-4 w-4 m-2 border-2"
               src={iconDecrementQuantity}
               alt="Decrement Quantity Icon"
             />
           </button>
           <span>{productQuantityInCart}</span>
-          <button onClick={() => handleCartQuantity("add")}>
+          <button onClick={handleAddToCart}>
             <Image
               className="h-4 w-4 m-2 border-2"
               src={iconIncrementQuantity}
@@ -49,7 +50,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       return (
         <button
           className="flex items-center justify-center border border-slate-400 bg-white h-10 w-40 rounded-3xl absolute m-auto left-0 right-0 -bottom-5"
-          onClick={handleAddToCartSelected}
+          onClick={handleAddToCart}
         >
           <Image
             className="h-4 w-4 mr-2"
@@ -61,12 +62,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       );
     }
   };
+
   return (
     <div className="md:p-5">
-      <div className="text-black relative mb-5  rounded-lg ">
+      <div className="text-black relative mb-5 rounded-lg ">
         <Image
           className={`w-full md:aspect-square sm:aspect-[3/2] rounded-lg ${
-            isSelectedProduct[name] ? "border-2  border-red-700" : "border-2"
+            isSelectedProduct ? "border-2 border-red-700" : "border-2"
           }`}
           src={image}
           width={200}
