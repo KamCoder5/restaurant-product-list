@@ -33,18 +33,11 @@ export default function Home() {
     }));
   };
   const productImage = (product: any) => {
-    if (isMobile) {
-      return product.image.mobile;
-    }
-    if (isDesktop) {
-      return product.image.desktop;
-    }
-    if (isTablet) {
-      return product.image.tablet;
-    } else {
-      return product.image.desktop;
-    }
+    if (isMobile) return product.image.mobile;
+    if (isTablet) return product.image.tablet;
+    return product.image.desktop;
   };
+
   return (
     <div className="text-black p-4">
       <header className="text-black text-4xl font-extrabold mb-10">
@@ -69,7 +62,12 @@ export default function Home() {
           />
         ))}
       </div>
-      <SummaryCardItem />
+      <div className="h-full w-full bg-white p-4 rounded-lg">
+        <div className="text-red-700 text-4xl font-extrabold mb-5">
+          Your Cart (00)
+        </div>
+        <SummaryCardItem />
+      </div>
     </div>
   );
 }
