@@ -6,37 +6,38 @@ import { ProductCard } from "./components/ProductCard";
 import { SummaryCardItem } from "./components/SummaryCardItem";
 
 export default function Home() {
-  const [productsInCart, setProductInCart] = useState<{
+  const [productsInCart, setProductsInCart] = useState<{
     [key: string]: number;
   }>({});
-  const [isAddToCartSelected, setIsAddToCartSelected] = useState<string[]>([]);
 
-  const handleProductsInCart = (productName: string, option: string) => {
-    handleAddToCartSelected(productName);
-    if (option === "add") {
-      setProductInCart((prevCart) => ({
-        ...prevCart,
-        [productName]: (prevCart[productName] ?? 0) + 1,
-      }));
-    } else if (option === "remove" && productsInCart[productName]) {
-      setProductInCart((prevCart) => ({
-        ...prevCart,
-        [productName]: prevCart[productName] - 1,
-      }));
-    }
-    console.log({ productsInCart });
+  const handleCartQuantity = (productName: string, option: string) => {
+    setProductsInCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      if (option === "add") {
+        updatedCart[productName] = (updatedCart[productName] || 0) + 1;
+      } else if (option === "remove" && updatedCart[productName]) {
+        updatedCart[productName] -= 1;
+        if (updatedCart[productName] === 0) {
+          delete updatedCart[productName];
+        }
+      }
+      return updatedCart;
+    });
   };
 
   const handleAddToCartSelected = (productName: string) => {
-    setIsAddToCartSelected([...isAddToCartSelected, productName]);
-    console.log({ isAddToCartSelected });
+    setProductsInCart((prevCart) => ({
+      ...prevCart,
+      [productName]: 1,
+    }));
   };
+
   return (
     <div className="text-black p-4">
       <header className="text-black text-4xl font-extrabold mb-10">
         Desserts
       </header>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {data.map((product, index) => (
           <ProductCard
             key={index}
@@ -46,7 +47,7 @@ export default function Home() {
             price={product.price}
             productQuantityInCart={productsInCart[product.name] || 0}
             handleCartQuantity={(option: string) =>
-              handleProductsInCart(product.name, option)
+              handleCartQuantity(product.name, option)
             }
             handleAddToCartSelected={() =>
               handleAddToCartSelected(product.name)
