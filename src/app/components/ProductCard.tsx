@@ -27,11 +27,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const productCardButton = () => {
     if (isSelectedProduct) {
       return (
-        <div className="flex items-center justify-center border-2 border-red-700 bg-red-700 text-white h-10 w-40 rounded-3xl absolute m-auto left-0 right-0 -bottom-5">
+        <div className="flex items-center justify-between border-2 border-red-700 bg-red-700 text-white h-10 w-40 rounded-3xl absolute m-auto left-0 right-0 -bottom-5">
           <button onClick={handleRemoveFromCart}>
             <Image
               priority={false}
-              className="h-4 w-4 m-2 border-2"
+              className="h-4 w-4 m-2 border-2 rounded-xl "
               src={iconDecrementQuantity}
               alt="Decrement Quantity Icon"
             />
@@ -39,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <span>{productQuantityInCart}</span>
           <button onClick={handleAddToCart}>
             <Image
-              className="h-4 w-4 m-2 border-2"
+              className="h-4 w-4 m-2 border-2 rounded-xl"
               src={iconIncrementQuantity}
               alt="Increment Quantity Icon"
             />
