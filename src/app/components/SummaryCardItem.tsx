@@ -14,7 +14,7 @@ export const SummaryCardItem: React.FC<SummaryCardItemProps> = ({
   const totalPriceForIndividualProduct = price * quantity;
 
   return (
-    <div className="w-full bg-white mb-4">
+    <div className="w-full mb-4">
       <div className="flex justify-between items-center">
         <p className="text-slate-700 text-lg font-bold">{name}</p>
         <p className="text-slate-600 text-lg font-bold">

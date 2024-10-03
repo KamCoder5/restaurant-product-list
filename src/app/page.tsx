@@ -78,11 +78,12 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="lg:w-1/4 lg:pl-4 order-last">
+      {/* summary card */}
+      <div className="lg:w-1/4  lg:h-1/4 lg:p-10 bg-white max-sm:p-10 rounded-lg">
+        <div className="text-red-700 text-4xl font-extrabold">
+          Your Cart ({totalItemsInCart})
+        </div>
         <div className="bg-white p-4 rounded-lg mt-8 lg:mt-0 lg:sticky lg:top-4">
-          <div className="text-red-700 text-4xl font-extrabold mb-5">
-            Your Cart ({totalItemsInCart})
-          </div>
           {Object.entries(productsInCart).map(([name, { price, quantity }]) => (
             <SummaryCardItem
               key={name}
@@ -91,8 +92,20 @@ export default function Home() {
               quantity={quantity}
             />
           ))}
-          <div className="text-xl font-bold mt-4">
-            Total: ${getTotalCartCost().toFixed(2)}
+
+          <div className="flex flex-row text-lg mt-4 justify-between items-center">
+            <span>Order Total </span>
+            <span className="font-extrabold text-3xl">
+              ${getTotalCartCost().toFixed(2)}
+            </span>
+          </div>
+          <div className="flex justify-center w-full  mt-4">
+            <button
+              type="button"
+              className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-1/2 mt-5"
+            >
+              Confirm Order
+            </button>
           </div>
         </div>
       </div>
