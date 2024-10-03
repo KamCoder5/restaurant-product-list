@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
 import { SummaryCard } from "./components/SummaryCard";
@@ -13,6 +13,17 @@ interface CartItem {
 
 export default function Home() {
   const [productsInCart, setProductsInCart] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setProductsInCart(JSON.parse(savedCart));
+    }
+  }, [productsInCart]);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(productsInCart));
+  }, [productsInCart]);
 
   const addToCart = (productName: string, price: number) => {
     setProductsInCart((prevCart) => {
