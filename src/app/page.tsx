@@ -14,17 +14,6 @@ interface CartItem {
 export default function Home() {
   const [productsInCart, setProductsInCart] = useState<CartItem[]>([]);
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setProductsInCart(JSON.parse(savedCart));
-    }
-  }, [productsInCart]);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(productsInCart));
-  }, [productsInCart]);
-
   const addToCart = (productName: string, price: number) => {
     setProductsInCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.name === productName);
