@@ -53,7 +53,7 @@ export default function Home() {
   );
 
   return (
-    <div className="text-black p-10 flex flex-col lg:flex-row min-h-screen">
+    <div className="text-black flex flex-col lg:flex-row min-h-screen pt-5">
       <div className="flex-grow">
         <header className="text-black text-4xl font-extrabold md:ml-5 mb-5">
           Desserts
