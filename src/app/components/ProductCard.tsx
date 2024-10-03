@@ -67,7 +67,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <div className="md:p-5">
       <div className="text-black relative mb-5 rounded-lg ">
         <Image
-          className={`w-full md:aspect-square sm:aspect-[3/2] rounded-lg ${
+          className={`w-full md:aspect-square max-sm:aspect-[3/2] rounded-lg ${
             isSelectedProduct ? "border-2 border-red-700" : "border-2"
           }`}
           src={image}

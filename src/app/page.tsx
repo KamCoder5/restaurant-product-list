@@ -6,58 +6,56 @@ import { ProductCard } from "./components/ProductCard";
 import { SummaryCardItem } from "./components/SummaryCardItem";
 
 interface CartItem {
+  name: string;
   price: number;
   quantity: number;
 }
 
-interface Cart {
-  [key: string]: CartItem;
-}
-
 export default function Home() {
-  const [productsInCart, setProductsInCart] = useState<Cart>({});
+  const [productsInCart, setProductsInCart] = useState<CartItem[]>([]);
 
   const addToCart = (productName: string, price: number) => {
     setProductsInCart((prevCart) => {
-      const updatedCart = { ...prevCart };
-      if (updatedCart[productName]) {
-        updatedCart[productName].quantity += 1;
+      const existingItem = prevCart.find((item) => item.name === productName);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.name === productName
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
       } else {
-        updatedCart[productName] = { price, quantity: 1 };
+        return [...prevCart, { name: productName, price, quantity: 1 }];
       }
-      return updatedCart;
     });
   };
 
   const removeFromCart = (productName: string) => {
     setProductsInCart((prevCart) => {
-      const updatedCart = { ...prevCart };
-      if (updatedCart[productName]) {
-        updatedCart[productName].quantity -= 1;
-        if (updatedCart[productName].quantity <= 0) {
-          delete updatedCart[productName];
-        }
-      }
-      return updatedCart;
+      const updatedCart = prevCart.map((item) =>
+        item.name === productName
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+      return updatedCart.filter((item) => item.quantity > 0);
     });
   };
 
   const getTotalCartCost = () => {
-    return Object.values(productsInCart).reduce(
+    return productsInCart.reduce(
       (total, { price, quantity }) => total + price * quantity,
       0
     );
   };
 
-  const totalItemsInCart = Object.values(productsInCart).reduce(
+  const totalItemsInCart = productsInCart.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
 
   return (
-    <div className="text-black p-4 flex flex-col lg:flex-row min-h-screen">
+    <div className="text-black p-10 flex flex-col lg:flex-row min-h-screen">
       <div className="flex-grow">
-        <header className="text-black text-4xl font-extrabold mb-10">
+        <header className="text-black text-4xl font-extrabold md:ml-5 mb-5">
           Desserts
         </header>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -69,22 +67,25 @@ export default function Home() {
               name={product.name}
               price={product.price}
               productQuantityInCart={
-                productsInCart[product.name]?.quantity || 0
+                productsInCart.find((item) => item.name === product.name)
+                  ?.quantity || 0
               }
               handleAddToCart={() => addToCart(product.name, product.price)}
               handleRemoveFromCart={() => removeFromCart(product.name)}
-              isSelectedProduct={!!productsInCart[product.name]}
+              isSelectedProduct={productsInCart.some(
+                (item) => item.name === product.name
+              )}
             />
           ))}
         </div>
       </div>
       {/* summary card */}
-      <div className="lg:w-1/4  lg:h-1/4 lg:p-10 bg-white max-sm:p-10 rounded-lg">
+      <div className="lg:w-1/4 lg:h-1/4 lg:p-10 bg-white max-sm:p-10 md:p-10 rounded-lg">
         <div className="text-red-700 text-4xl font-extrabold">
           Your Cart ({totalItemsInCart})
         </div>
         <div className="bg-white p-4 rounded-lg mt-8 lg:mt-0 lg:sticky lg:top-4">
-          {Object.entries(productsInCart).map(([name, { price, quantity }]) => (
+          {productsInCart.map(({ name, price, quantity }) => (
             <SummaryCardItem
               key={name}
               name={name}
@@ -99,7 +100,7 @@ export default function Home() {
               ${getTotalCartCost().toFixed(2)}
             </span>
           </div>
-          <div className="flex justify-center w-full  mt-4">
+          <div className="flex justify-center w-full mt-4">
             <button
               type="button"
               className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-1/2 mt-5"
