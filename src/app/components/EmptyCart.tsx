@@ -2,9 +2,8 @@ import React from "react";
 import Image from "next/image";
 import emptyCart from "../../../public/images/illustration-empty-cart.svg";
 
-type Props = {};
 
-const EmptyCart = (props: Props) => {
+const EmptyCart = () => {
   return (
     <div>
       <Image
