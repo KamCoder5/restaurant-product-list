@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SummaryCardItem } from "./SummaryCardItem";
 import carbonNeutral from "../../../public/images/icon-carbon-neutral.svg";
+import emptyCart from "../../../public/images/illustration-empty-cart.svg";
 
 interface CartItem {
   name: string;
@@ -24,6 +25,17 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
       <div className="text-red-700 text-xl font-extrabold">
         Your Cart ({totalItemsInCart})
       </div>
+      <Image
+        className="m-auto"
+        src={emptyCart}
+        width={200}
+        height={200}
+        alt="Picture of Food"
+      />
+      <p className="text-center font-extrabold text-stone-400">
+        Your added items will appear here
+      </p>
+      {/* cart items */}
       <div className="bg-white p-4 rounded-lg mt-8 lg:mt-0 lg:sticky lg:top-4">
         {productsInCart.map(({ name, price, quantity }) => (
           <SummaryCardItem
