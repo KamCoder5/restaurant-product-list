@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
 import { SummaryCard } from "./components/SummaryCard";
