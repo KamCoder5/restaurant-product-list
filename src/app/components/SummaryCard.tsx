@@ -25,57 +25,62 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
       <div className="text-red-700 text-xl font-extrabold">
         Your Cart ({totalItemsInCart})
       </div>
-      <Image
-        className="m-auto"
-        src={emptyCart}
-        width={200}
-        height={200}
-        alt="Picture of Food"
-      />
-      <p className="text-center font-extrabold text-stone-400">
-        Your added items will appear here
-      </p>
-      {/* cart items */}
-      <div className="bg-white p-4 rounded-lg mt-8 lg:mt-0 lg:sticky lg:top-4">
-        {productsInCart.map(({ name, price, quantity }) => (
-          <SummaryCardItem
-            key={name}
-            name={name}
-            price={price}
-            quantity={quantity}
-          />
-        ))}
-        <div className="flex flex-row text-lg mt-4 justify-between items-center">
-          <span>Order Total </span>
-          <span className="font-extrabold text-3xl">
-            ${getTotalCartCost().toFixed(2)}
-          </span>
-        </div>
-        <div
-          className={
-            "flex flex-row bg-orange-50 rounded-lg items-center p-5 mt-5 "
-          }
-        >
+      {productsInCart.length == 0 && (
+        <div>
           <Image
-            className="justify-center items-center"
-            src={carbonNeutral}
-            width={25}
-            height={25}
-            alt="Carbon Neutral"
+            className="m-auto"
+            src={emptyCart}
+            width={200}
+            height={200}
+            alt="Picture of Food"
           />
-          <p className="ml-2 ">
-            This is <b className="text-grey-700"> carbon-neutral</b> delivery
+          <p className="text-center font-extrabold text-stone-400">
+            Your added items will appear here
           </p>
         </div>
-        <div className="flex items-center justify-center w-full mt-4">
-          <button
-            type="button"
-            className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg min-w-1/2 mt-5 mb-5"
+      )}
+      {productsInCart.length > 0 && (
+        <div className="bg-white p-4 rounded-lg mt-8 lg:mt-0 lg:sticky lg:top-4">
+          {productsInCart.map(({ name, price, quantity }) => (
+            <SummaryCardItem
+              key={name}
+              name={name}
+              price={price}
+              quantity={quantity}
+            />
+          ))}
+          <div className="flex flex-row text-lg mt-4 justify-between items-center">
+            <span>Order Total </span>
+            <span className="font-extrabold text-3xl">
+              ${getTotalCartCost().toFixed(2)}
+            </span>
+          </div>
+          <div
+            className={
+              "flex flex-row bg-orange-50 rounded-lg items-center p-5 mt-5 "
+            }
           >
-            Confirm Order
-          </button>
+            <Image
+              className="justify-center items-center"
+              src={carbonNeutral}
+              width={25}
+              height={25}
+              alt="Carbon Neutral"
+            />
+            <p className="ml-2 ">
+              This is <b className="text-grey-700"> carbon-neutral</b> delivery
+            </p>
+          </div>
+          <div className="flex items-center justify-center w-full mt-4">
+            <button
+              type="button"
+              className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg min-w-1/2 mt-5 mb-5"
+            >
+              Confirm Order
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
