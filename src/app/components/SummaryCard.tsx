@@ -21,14 +21,14 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
   getTotalCartCost,
 }) => {
   return (
-    <div className="justify-center items-center lg:h-1/4 lg:p-10 bg-white max-sm:p-10 md:p-10 rounded-lg">
+    <div className="justify-center items-center lg:h-1/4 lg:p-10 bg-white max-sm:p-10 md:p-10 rounded-lg  lg:min-w-1/4">
       <div className="text-red-700 text-xl font-extrabold">
         Your Cart ({totalItemsInCart})
       </div>
       {productsInCart.length == 0 && (
         <div>
           <Image
-            className="m-auto"
+            className="m-auto w-full"
             src={emptyCart}
             width={200}
             height={200}
