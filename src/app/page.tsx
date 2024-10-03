@@ -3,7 +3,7 @@
 import { useState } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
-import { SummaryCardItem } from "./components/SummaryCardItem";
+import { SummaryCard } from "./components/SummaryCard";
 
 interface CartItem {
   name: string;
@@ -79,37 +79,11 @@ export default function Home() {
           ))}
         </div>
       </div>
-      {/* summary card */}
-      <div className="lg:w-1/4 lg:h-1/4 lg:p-10 bg-white max-sm:p-10 md:p-10 rounded-lg">
-        <div className="text-red-700 text-4xl font-extrabold">
-          Your Cart ({totalItemsInCart})
-        </div>
-        <div className="bg-white p-4 rounded-lg mt-8 lg:mt-0 lg:sticky lg:top-4">
-          {productsInCart.map(({ name, price, quantity }) => (
-            <SummaryCardItem
-              key={name}
-              name={name}
-              price={price}
-              quantity={quantity}
-            />
-          ))}
-
-          <div className="flex flex-row text-lg mt-4 justify-between items-center">
-            <span>Order Total </span>
-            <span className="font-extrabold text-3xl">
-              ${getTotalCartCost().toFixed(2)}
-            </span>
-          </div>
-          <div className="flex justify-center w-full mt-4">
-            <button
-              type="button"
-              className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-1/2 mt-5"
-            >
-              Confirm Order
-            </button>
-          </div>
-        </div>
-      </div>
+      <SummaryCard
+        productsInCart={productsInCart}
+        totalItemsInCart={totalItemsInCart}
+        getTotalCartCost={getTotalCartCost}
+      />
     </div>
   );
 }
