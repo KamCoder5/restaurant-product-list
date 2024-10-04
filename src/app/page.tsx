@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
 import { SummaryCard } from "./components/SummaryCard";
@@ -17,40 +17,64 @@ export default function Home() {
   const [isOrderConfirmedOpen, setIsOrderConfirmedOpen] =
     useState<boolean>(false);
 
+  useEffect(() => {
+    const savedCart = localStorage.getItem("unconfirmedCart");
+    if (savedCart) {
+      setProductsInCart(JSON.parse(savedCart));
+    }
+  }, []);
+
+  const saveToLocalStorage = (cart: CartItem[]) => {
+    localStorage.setItem("unconfirmedCart", JSON.stringify(cart));
+  };
+
   const addToCart = (productName: string, price: number, image: string) => {
     setProductsInCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.name === productName);
+      let newCart;
       if (existingItem) {
-        return prevCart.map((item) =>
+        newCart = prevCart.map((item) =>
           item.name === productName
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        return [...prevCart, { name: productName, price, quantity: 1, image }];
+        newCart = [
+          ...prevCart,
+          { name: productName, price, quantity: 1, image },
+        ];
       }
+      saveToLocalStorage(newCart);
+      return newCart;
     });
   };
 
   const showOrderConfirmed = () => {
     setIsOrderConfirmedOpen(true);
+    console.log("Order confirmed!", { isOrderConfirmedOpen });
+    localStorage.removeItem("unconfirmedCart");
   };
 
   const removeFromCart = (productName: string) => {
     setProductsInCart((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.name === productName
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      );
-      return updatedCart.filter((item) => item.quantity > 0);
+      const updatedCart = prevCart
+        .map((item) =>
+          item.name === productName
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0);
+      saveToLocalStorage(updatedCart);
+      return updatedCart;
     });
   };
 
   const deleteFromCart = (productName: string) => {
-    setProductsInCart((prevCart) =>
-      prevCart.filter((item) => item.name !== productName)
-    );
+    setProductsInCart((prevCart) => {
+      const updatedCart = prevCart.filter((item) => item.name !== productName);
+      saveToLocalStorage(updatedCart);
+      return updatedCart;
+    });
   };
 
   const getTotalCartCost = () => {
@@ -119,6 +143,7 @@ export default function Home() {
           onStartNewOrder={() => {
             setProductsInCart([]);
             setIsOrderConfirmedOpen(false);
+            localStorage.removeItem("unconfirmedCart");
           }}
         />
       )}
