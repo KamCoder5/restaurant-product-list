@@ -9,6 +9,7 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  image?: string;
 }
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
   const [isOrderConfirmedOpen, setIsOrderConfirmedOpen] =
     useState<boolean>(false);
 
-  const addToCart = (productName: string, price: number) => {
+  const addToCart = (productName: string, price: number, image: string) => {
     setProductsInCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.name === productName);
       if (existingItem) {
@@ -26,7 +27,7 @@ export default function Home() {
             : item
         );
       } else {
-        return [...prevCart, { name: productName, price, quantity: 1 }];
+        return [...prevCart, { name: productName, price, quantity: 1, image }];
       }
     });
   };
@@ -64,6 +65,7 @@ export default function Home() {
     (sum, item) => sum + item.quantity,
     0
   );
+
   const productQuantityInCart = (
     productsInCart: CartItem[],
     productName: string
@@ -91,7 +93,9 @@ export default function Home() {
                 productsInCart,
                 product.name
               )}
-              handleAddToCart={() => addToCart(product.name, product.price)}
+              handleAddToCart={() =>
+                addToCart(product.name, product.price, product.image.desktop)
+              }
               handleRemoveFromCart={() => removeFromCart(product.name)}
               isSelectedProduct={productsInCart.some(
                 (item) => item.name === product.name
