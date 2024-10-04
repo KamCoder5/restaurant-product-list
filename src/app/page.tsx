@@ -34,7 +34,6 @@ export default function Home() {
 
   const showOrderConfirmed = () => {
     setIsOrderConfirmedOpen(true);
-    console.log("Order confirmed!", { isOrderConfirmedOpen });
   };
 
   const removeFromCart = (productName: string) => {
