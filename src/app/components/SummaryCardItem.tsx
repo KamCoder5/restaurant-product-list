@@ -21,15 +21,17 @@ export const SummaryCardItem: React.FC<SummaryCardItemProps> = ({
     <div className="w-full mb-4">
       <div className="flex justify-between items-center">
         <p className="text-slate-700 text-lg font-bold">{name}</p>
-        <button onClick={() => deleteFromCart!(name)}>
-          <Image
-            className="border-2 border-stone-200 rounded-full mt-4"
-            src={removeItemIcon}
-            width={20}
-            height={20}
-            alt="remove item from cart"
-          />
-        </button>
+        {deleteFromCart && (
+          <button onClick={() => deleteFromCart!(name)}>
+            <Image
+              className="border-2 border-stone-200 rounded-full mt-4"
+              src={removeItemIcon}
+              width={20}
+              height={20}
+              alt="remove item from cart"
+            />
+          </button>
+        )}
       </div>
       <div className="flex items-center text-m text-slate-500">
         <p className="mr-2 font-bold text-red-700">{quantity}x</p>
