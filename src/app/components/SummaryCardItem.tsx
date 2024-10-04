@@ -21,7 +21,7 @@ export const SummaryCardItem: React.FC<SummaryCardItemProps> = ({
         <p className="text-slate-700 text-lg font-bold">{name}</p>
         <button>
           <Image
-            className="border-2 border-stone-400 rounded-full mt-4"
+            className="border-2 border-stone-200 rounded-full mt-4"
             src={removeItemIcon}
             width={20}
             height={20}
