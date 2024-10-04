@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
