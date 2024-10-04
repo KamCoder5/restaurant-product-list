@@ -39,6 +39,12 @@ export default function Home() {
     });
   };
 
+  const deleteFromCart = (productName: string) => {
+    setProductsInCart((prevCart) =>
+      prevCart.filter((item) => item.name !== productName)
+    );
+  };
+
   const getTotalCartCost = () => {
     return productsInCart.reduce(
       (total, { price, quantity }) => total + price * quantity,
@@ -82,6 +88,7 @@ export default function Home() {
         productsInCart={productsInCart}
         totalItemsInCart={totalItemsInCart}
         getTotalCartCost={getTotalCartCost}
+        deleteFromCart={deleteFromCart}
       />
     </div>
   );

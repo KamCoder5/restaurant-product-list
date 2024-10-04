@@ -6,12 +6,14 @@ interface SummaryCardItemProps {
   name: string;
   price: number;
   quantity: number;
+  deleteFromCart: (name: string) => void;
 }
 
 export const SummaryCardItem: React.FC<SummaryCardItemProps> = ({
   name,
   price,
   quantity,
+  deleteFromCart,
 }) => {
   const totalPriceForIndividualProduct = (price * quantity).toFixed(2);
 
@@ -19,7 +21,7 @@ export const SummaryCardItem: React.FC<SummaryCardItemProps> = ({
     <div className="w-full mb-4">
       <div className="flex justify-between items-center">
         <p className="text-slate-700 text-lg font-bold">{name}</p>
-        <button>
+        <button onClick={() => deleteFromCart(name)}>
           <Image
             className="border-2 border-stone-200 rounded-full mt-4"
             src={removeItemIcon}

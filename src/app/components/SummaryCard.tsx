@@ -13,12 +13,14 @@ interface SummaryCardProps {
   productsInCart: CartItem[];
   totalItemsInCart: number;
   getTotalCartCost: () => number;
+  deleteFromCart: (productName: string) => void;
 }
 
 export const SummaryCard: React.FC<SummaryCardProps> = ({
   productsInCart,
   totalItemsInCart,
   getTotalCartCost,
+  deleteFromCart,
 }) => {
   return (
     <div className="justify-center items-center lg:h-1/4 lg:p-6 bg-white max-sm:p-10 md:p-10 rounded-lg md:w-1/2 lg:w-1/4">
@@ -34,6 +36,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
               name={name}
               price={price}
               quantity={quantity}
+              deleteFromCart={deleteFromCart}
             />
           ))}
           <div className="flex flex-row text-lg mt-4 justify-between items-center">
