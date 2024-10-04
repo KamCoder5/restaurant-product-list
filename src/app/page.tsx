@@ -3,6 +3,7 @@ import { useState } from "react";
 import data from "../api/data.json";
 import { ProductCard } from "./components/ProductCard";
 import { SummaryCard } from "./components/SummaryCard";
+import { OrderConfirmedModal } from "./components/OrderConfirmedModal";
 
 interface CartItem {
   name: string;
@@ -12,6 +13,8 @@ interface CartItem {
 
 export default function Home() {
   const [productsInCart, setProductsInCart] = useState<CartItem[]>([]);
+  const [isOrderConfirmedOpen, setIsOrderConfirmedOpen] =
+    useState<boolean>(false);
 
   const addToCart = (productName: string, price: number) => {
     setProductsInCart((prevCart) => {
@@ -26,6 +29,15 @@ export default function Home() {
         return [...prevCart, { name: productName, price, quantity: 1 }];
       }
     });
+  };
+
+  const showOrderConfirmed = () => {
+    setIsOrderConfirmedOpen(true);
+    console.log("Order confirmed!", { isOrderConfirmedOpen });
+  };
+  const startNewOrder = () => {
+    setIsOrderConfirmedOpen(false);
+    console.log("cart cleared!", { isOrderConfirmedOpen });
   };
 
   const removeFromCart = (productName: string) => {
@@ -56,6 +68,14 @@ export default function Home() {
     (sum, item) => sum + item.quantity,
     0
   );
+  const productQuantityInCart = (
+    productsInCart: CartItem[],
+    productName: string
+  ) => {
+    return (
+      productsInCart.find((item) => item.name === productName)?.quantity || 0
+    );
+  };
 
   return (
     <div className="text-black flex flex-col lg:flex-row min-h-screen pt-5">
@@ -71,10 +91,10 @@ export default function Home() {
               category={product.category}
               name={product.name}
               price={product.price}
-              productQuantityInCart={
-                productsInCart.find((item) => item.name === product.name)
-                  ?.quantity || 0
-              }
+              productQuantityInCart={productQuantityInCart(
+                productsInCart,
+                product.name
+              )}
               handleAddToCart={() => addToCart(product.name, product.price)}
               handleRemoveFromCart={() => removeFromCart(product.name)}
               isSelectedProduct={productsInCart.some(
@@ -89,7 +109,20 @@ export default function Home() {
         totalItemsInCart={totalItemsInCart}
         getTotalCartCost={getTotalCartCost}
         deleteFromCart={deleteFromCart}
+        isOrderConfirmedOpen={showOrderConfirmed}
       />
+      {isOrderConfirmedOpen && (
+        <OrderConfirmedModal
+          isOrderConfirmedOpen={isOrderConfirmedOpen}
+          productsInCart={productsInCart}
+          getTotalCartCost={getTotalCartCost}
+          onClose={() => setIsOrderConfirmedOpen(false)}
+          onStartNewOrder={() => {
+            setProductsInCart([]);
+            setIsOrderConfirmedOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

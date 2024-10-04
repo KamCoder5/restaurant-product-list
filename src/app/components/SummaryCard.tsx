@@ -3,7 +3,7 @@ import { SummaryCardItem } from "./SummaryCardItem";
 import carbonNeutral from "../../../public/images/icon-carbon-neutral.svg";
 import EmptyCart from "./EmptyCart";
 
-interface CartItem {
+export interface CartItem {
   name: string;
   price: number;
   quantity: number;
@@ -14,6 +14,7 @@ interface SummaryCardProps {
   totalItemsInCart: number;
   getTotalCartCost: () => number;
   deleteFromCart: (productName: string) => void;
+  isOrderConfirmedOpen: () => void;
 }
 
 export const SummaryCard: React.FC<SummaryCardProps> = ({
@@ -21,9 +22,10 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
   totalItemsInCart,
   getTotalCartCost,
   deleteFromCart,
+  isOrderConfirmedOpen,
 }) => {
   return (
-    <div className="justify-center items-center lg:h-1/4 lg:p-6 bg-white max-sm:p-10 md:p-10 rounded-lg md:w-1/2 lg:w-1/4">
+    <div className="justify-center items-center lg:h-1/4 lg:p-6 bg-white max-sm:p-10 md:p-10 rounded-lg md:w-1/2 lg:w-1/4 0">
       <div className="text-red-700 text-xl font-extrabold">
         Your Cart ({totalItemsInCart})
       </div>
@@ -65,6 +67,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
             <button
               type="button"
               className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg min-w-1/2 mt-5 mb-5"
+              onClick={isOrderConfirmedOpen}
             >
               Confirm Order
             </button>
